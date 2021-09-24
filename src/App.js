@@ -1,13 +1,16 @@
+/* eslint-disable*/
+
 import './App.css';
 import { Navbar, Container, Nav, NavDropdown, Button } from 'react-bootstrap';
 import { useState } from 'react';
+import Data from './data.js';
+import Item from './component/Item';
+import { Link, Route, Switch } from 'react-router-dom';
 
 function App() {
-  const [index, setIndex] = useState(0);
 
-  const handleSelect = (selectedIndex, e) => {
-    setIndex(selectedIndex);
-  };
+  let [shoes, setShoes] = useState(Data);
+
   return (
     <div className="App">
       <Navbar bg="light" expand="lg">
@@ -29,35 +32,43 @@ function App() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <div className="jumbotron">
-        <h1>Shoes these days.</h1>
-        <span>20% discount on all items to celebrate September.<br/>
-        2,000 won discount coupon for new members.</span>
-        <Button variant="primary">Primary</Button>{' '}
-      </div>
 
-      <div className="container">
-        <div className="row">
-          <div className="col-md-4">
-            <img src="https://codingapple1.github.io/shop/shoes1.jpg" width="100%" />
-            <h4>상품명</h4>
-            <p>상품정보</p>
-          </div>
 
-          <div className="col-md-4">
-            <img src="https://codingapple1.github.io/shop/shoes2.jpg" width="100%" />
-            <h4>상품명</h4>
-            <p>상품정보</p>
-          </div>
-
-          <div className="col-md-4">
-            <img src="https://codingapple1.github.io/shop/shoes3.jpg" width="100%" />
-            <h4>상품명</h4>
-            <p>상품정보</p>
-          </div>
-
+      <Route exact path="/">
+        <div className="jumbotron">
+          <h1>Shoes these days.</h1>
+          <span>20% discount on all items to celebrate September.<br/>
+          2,000 won discount coupon for new members.</span>
+          <Button variant="primary">Primary</Button>{' '}
         </div>
-      </div>
+        <div className="container">
+          <div className="row">
+            {
+              shoes.map((a, i) => {
+                return <Item shoes={shoes[i]} number={i} key={i}/>
+              })
+              
+            }
+          </div>
+        </div>
+      </Route>
+      <Route path="/detail">
+        <div className="container">
+          <div className="row">
+            <div className="col-md-6">
+              <img src="https://codingapple1.github.io/shop/shoes1.jpg" width="100%" />
+            </div>
+            <div className="col-md-6 mt-4">
+              <h4 className="pt-5">상품명</h4>
+              <p>상품설명</p>
+              <p>120000원</p>
+              <button className="btn btn-danger">주문하기</button> 
+            </div>
+          </div>
+        </div> 
+      </Route>
+
+
 
     </div>
   );
